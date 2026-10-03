@@ -141,7 +141,7 @@ public sealed class DartRepositoryEmitter(ITypeMapper typeMapper, INamingConvent
         foreach (var p in e.Parameters.Where(x => x.In == "path"))
         {
             var type = ResolveSchemaType(p.Schema, localModels);
-            parts.Add($"{naming.PropertyName(p.Name)} {type}");
+            parts.Add($"{type} {naming.PropertyName(p.Name)}");
         }
 
         foreach (var p in e.Parameters.Where(x => x.In == "query"))
@@ -153,7 +153,7 @@ public sealed class DartRepositoryEmitter(ITypeMapper typeMapper, INamingConvent
         }
 
         if (e.RequestBody is not null)
-            parts.Add($"required {ResolveSchemaType(e.RequestBody, localModels)} body");
+            parts.Add($"{ResolveSchemaType(e.RequestBody, localModels)} body");
 
         return string.Join(", ", parts);
     }
@@ -188,7 +188,7 @@ public sealed class DartRepositoryEmitter(ITypeMapper typeMapper, INamingConvent
     private string BuildParseExpression(OpenApiSchema? schema)
     {
         if (schema is null)
-            return "(_) => null";
+            return "(_) => {}";
 
         if (schema.Ref is not null)
         {

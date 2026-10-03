@@ -21,4 +21,7 @@ public class OpenApiOperation
 
     [JsonPropertyName("x-controller-path")]
     public string? ControllerPath { get; set; }
+    
+    [JsonPropertyName("x-api-client-target")]
+    public List<string> ApiClientTargets { get; set; } = new();
 }

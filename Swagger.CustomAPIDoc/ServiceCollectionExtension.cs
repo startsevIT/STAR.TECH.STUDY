@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
@@ -25,12 +26,23 @@ public static class ServiceCollectionExtension
             {
                 [new OpenApiSecuritySchemeReference("Bearer", document)] = []
             });
-    
-            options.CustomOperationIds(apiDesc => apiDesc.TryGetMethodInfo(out var methodInfo) ? methodInfo.Name : null);
+
+            options.CustomOperationIds(apiDesc =>
+                apiDesc.TryGetMethodInfo(out var methodInfo) ? methodInfo.Name : null);
+            options.OperationFilter<ApiClientTargetOperationFilter>();
             options.OperationFilter<ControllerNamespaceOperationFilter>();
             options.SupportNonNullableReferenceTypes();
         });
-        
+
+        services.AddHostedService<SwaggerStartupValidator>();
+
         return services;
+    }
+
+    public static WebApplication UseApiDocumentation(this WebApplication app)
+    {
+        app.UseSwagger().UseSwaggerUI();
+
+        return app;
     }
 }

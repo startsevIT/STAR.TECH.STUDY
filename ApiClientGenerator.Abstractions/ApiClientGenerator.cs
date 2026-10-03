@@ -5,10 +5,15 @@ namespace ApiClientGenerator.Abstractions;
 
 public sealed class ApiClientGenerator(ILanguageTarget target)
 {
-    public void Generate(string swaggerJson, string outputDir, Action<string>? log = null)
+    public void Generate(
+        string swaggerJson,
+        string outputDir,
+        string apiClientTarget,
+        Action<string>? log = null)
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(swaggerJson);
         ArgumentException.ThrowIfNullOrWhiteSpace(outputDir);
+        ArgumentException.ThrowIfNullOrWhiteSpace(apiClientTarget);
 
         log ??= Console.WriteLine;
 
@@ -21,6 +26,10 @@ public sealed class ApiClientGenerator(ILanguageTarget target)
         Directory.CreateDirectory(outputDir);
 
         var parsed = OpenApiParser.Parse(swaggerJson);
+
+        var before = parsed.Endpoints.Count;
+        parsed = parsed.FilterByApiClientTarget(apiClientTarget);
+        log($"Filtered by target '{apiClientTarget}': {before} → {parsed.Endpoints.Count} endpoints");
 
         log($"Endpoints: {parsed.Endpoints.Count}");
         log($"Schemas: {parsed.Schemas.Count}");

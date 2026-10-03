@@ -1,5 +1,6 @@
 using Application.Users;
 using Microsoft.AspNetCore.Mvc;
+using Swagger.CustomAPIDoc;
 
 namespace Presentation.Controllers;
 
@@ -7,6 +8,7 @@ public class EmailConfirmationController(EmailConfirmationService emailConfirmat
 {
     [HttpGet("confirm-email")]
     [Produces("text/html")]
+    [ForOnlyApi]
     public IActionResult ConfirmEmail([FromQuery] string token)
     {
         try
@@ -44,6 +46,7 @@ public class EmailConfirmationController(EmailConfirmationService emailConfirmat
     }
 
     [HttpPost("resend-confirmation/{userId:guid}")]
+    [ForOnlyApi]
     public IActionResult ResendConfirmation(Guid userId)
     {
         _ = emailConfirmationService.ResendAsync(userId);

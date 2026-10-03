@@ -12,4 +12,5 @@ public class ParsedEndpoint
     public required List<OpenApiParameter> Parameters { get; init; }
     public OpenApiSchema? RequestBody { get; init; }
     public OpenApiSchema? ResponseBody { get; init; }
+    public IReadOnlyList<string> ApiClientTargets { get; init; } = [];
 }

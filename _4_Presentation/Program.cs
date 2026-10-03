@@ -1,3 +1,4 @@
+using System.Text.Json.Serialization;
 using Application;
 using Application.Users;
 using Domain.Users;
@@ -25,7 +26,8 @@ builder.Services
     .AddServices(typeof(UserService).Assembly)
     .AddLoggingEmailSender()
     .AddExceptionHandler<GlobalExceptionHandler>()
-    .AddControllers(o => o.Conventions.Add(new ApiRouteConvention()));
+    .AddControllers(o => o.Conventions.Add(new ApiRouteConvention()))
+    .AddJsonOptions(options => options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));;
 
 builder.Services.AddOptions<AppOptions>()
     .Bind(builder.Configuration.GetSection(AppOptions.SectionName))

@@ -25,4 +25,9 @@
       <PackageReference Include="Swashbuckle.AspNetCore" Version="10.2.3" />
     </ItemGroup>
 
+    <PropertyGroup>
+        <OpenApiGenerateDocumentsOnBuild>true</OpenApiGenerateDocumentsOnBuild>
+        <OpenApiDocumentsDirectory>../openapi</OpenApiDocumentsDirectory>
+        <OpenApiGenerateDocumentsOptions>--file-name api-spec</OpenApiGenerateDocumentsOptions>
+    </PropertyGroup>
 </Project>

@@ -44,7 +44,8 @@ public static class OpenApiParser
                     ControllerPath = op.ControllerPath ?? "",
                     Parameters = op.Parameters,
                     RequestBody = requestSchema,
-                    ResponseBody = responseSchema
+                    ResponseBody = responseSchema,
+                    ApiClientTargets = op.ApiClientTargets
                 });
             }
         }
