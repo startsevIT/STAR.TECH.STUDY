@@ -1,0 +1,15 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net10.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <RootNamespace>ApiClientGenerator.React</RootNamespace>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\ApiClientGenerator.Abstractions\ApiClientGenerator.Abstractions.csproj" />
+      <ProjectReference Include="..\SnakeCaseConverter\SnakeCaseConverter.csproj" />
+    </ItemGroup>
+
+</Project>

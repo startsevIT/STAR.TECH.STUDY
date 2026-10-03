@@ -10,6 +10,7 @@ namespace Presentation.Controllers;
 public class OrganisationRegisterRequestController(
     OrganisationRegisterRequestService organisationRegisterRequestService) : Controller
 {
+    //todo ВНЕШНЕЕ приложение. Клиент моежет подать заявку на вступление в организацию как препод или студент
     [HttpPost("{organisationId:guid}"), Authorize]
     public IActionResult Create([FromToken] Guid userId, Guid organisationId, [FromBody] Role role)
     {
@@ -17,6 +18,7 @@ public class OrganisationRegisterRequestController(
         return Ok();
     }
 
+    //todo ВНУТРЕННЕЕ приложение. Администрация организации может одобрить заявку на вступление в организацию
     [HttpPut("approve/{requestId:guid}"), Authorize]
     public IActionResult Approve(Guid requestId, [FromToken] Guid userId)
     {
@@ -24,6 +26,7 @@ public class OrganisationRegisterRequestController(
         return Ok();
     }
 
+    //todo ВНУТРЕННЕЕ приложение. Администрация организации может отклонить заявку на вступление в организацию
     [HttpPut("reject/{requestId:guid}"), Authorize]
     public IActionResult Reject(Guid requestId, [FromToken] Guid userId)
     {
@@ -31,6 +34,7 @@ public class OrganisationRegisterRequestController(
         return Ok();
     }
 
+    //todo ВНУТРЕННЕЕ приложение. Администрация организации может посмотреть заявки на вступление в конкретную организацию
     [HttpGet("{organisationId:guid}"), Authorize]
     public ActionResult<OrganisationUserRegistrationRequestDto> Get(Guid organisationId, [FromToken] Guid userId)
     {

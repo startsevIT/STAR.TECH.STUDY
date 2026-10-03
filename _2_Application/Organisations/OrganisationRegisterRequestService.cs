@@ -44,7 +44,8 @@ public class OrganisationRegisterRequestService(
         {
             request.Approve(managerId);
             storage.Update(request);
-            userOrganisationService.AddOrReactivateUser(request.OrganisationId, request.UserId, request.Role);
+            userOrganisationService.AddOrReactivateUser(request.OrganisationId,
+                new UserOrganisationRequest(request.UserId, request.Role));
         });
     }
 

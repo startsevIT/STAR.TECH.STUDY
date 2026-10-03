@@ -7,21 +7,41 @@ namespace Application.Organisations;
 
 public class UserOrganisationService(IStorage storage)
 {
-    public Guid AddOrReactivateUser(Guid organisationId, Guid userId, Role role)
+    //todo ВНУТРЕННЕЕ ПРИЛОЖЕНИЕ. Администрация организации может добавлять пачками пользователей
+    public void AddOrReactivateUser(Guid organisationId, UserOrganisationRequest request) =>
+        AddOrReactivateUsers(organisationId, [request]);
+
+    public void AddOrReactivateUsers(Guid organisationId, IReadOnlyList<UserOrganisationRequest> requests)
     {
-        var existingLink = storage.Select<UserOrganisation>()
-            .SingleOrDefault(x => x.UserId == userId && x.OrganisationId == organisationId && x.Role == role);
-
-        if (existingLink == null)
-            return storage.Insert(UserOrganisation.Create(userId, organisationId, role));
-
-        if (!existingLink.IsActive)
+        storage.Transaction(() =>
         {
-            existingLink.SetIsActive(true);
-            storage.Update(existingLink);
-        }
+            var distinctRequests = requests
+                .GroupBy(x => (x.UserId, x.Role))
+                .Select(g => g.First())
+                .ToList();
 
-        return existingLink.Id;
+            var userIds = distinctRequests.Select(x => x.UserId).Distinct().ToList();
+
+            var existingLinks = storage.Select<UserOrganisation>()
+                .Where(y => y.OrganisationId == organisationId)
+                .Where(y => userIds.Contains(y.UserId))
+                .ToList()
+                .ToDictionary(y => (y.UserId, y.Role));
+
+            foreach (var request in distinctRequests)
+            {
+                if (existingLinks.TryGetValue((request.UserId, request.Role), out var existingLink))
+                {
+                    if (existingLink.IsActive)
+                        continue;
+
+                    existingLink.SetIsActive(true);
+                    storage.Update(existingLink);
+                }
+                else
+                    storage.Insert(UserOrganisation.Create(request.UserId, organisationId, request.Role));
+            }
+        });
     }
 
     public void RemoveUser(Guid organisationId, Guid userId, Role role)
@@ -36,7 +56,7 @@ public class UserOrganisationService(IStorage storage)
         storage.Update(link);
     }
 
-    public IReadOnlyList<OrganisationUserDto> GetUsers(Guid organisationId)
+    public IReadOnlyList<OrganisationUserResponse> GetUsers(Guid organisationId)
     {
         var links = storage.Select<UserOrganisation>()
             .Where(x => x.OrganisationId == organisationId)
@@ -53,7 +73,8 @@ public class UserOrganisationService(IStorage storage)
 
         return storage.Select<User>()
             .Where(u => userIds.Contains(u.Id))
-            .Select(u => new OrganisationUserDto(u.Id, u.FirstName, u.LastName, u.Patronymic, rolesByUserId[u.Id]))
+            .Select(u => new OrganisationUserResponse(u.Id, u.FirstName, u.LastName, u.Patronymic, rolesByUserId[u.Id]))
             .ToList();
     }
 }
+

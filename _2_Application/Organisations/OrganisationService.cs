@@ -1,4 +1,5 @@
-﻿using Domain.Organisations;
+﻿using Application.Organisations.Models;
+using Domain.Organisations;
 using Domain.Users;
 using Storage.Abstractions;
 
@@ -14,7 +15,3 @@ public class OrganisationService(IStorage storage)
             return id;
         });
 }
-
-public record OrganisationCreateRequest(
-    string Name,
-    string City);
