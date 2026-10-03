@@ -9,9 +9,11 @@
 
     <ItemGroup>
       <ProjectReference Include="..\EmailSender.Logger\EmailSender.Logger.csproj" />
+      <ProjectReference Include="..\FromToken\FromToken.csproj" />
       <ProjectReference Include="..\PasswordHasher.PBKDF2\PasswordHasher.PBKDF2.csproj" />
       <ProjectReference Include="..\ServiceCollectorDI\ServiceCollectorDI.csproj" />
       <ProjectReference Include="..\Storage.EntityFramework\Storage.EntityFramework.csproj" />
+      <ProjectReference Include="..\Storage.Validators\Storage.Validators.csproj" />
       <ProjectReference Include="..\Swagger.CustomAPIDoc\Swagger.CustomAPIDoc.csproj" />
       <ProjectReference Include="..\TokenCreator.JWT\TokenCreator.JWT.csproj" />
       <ProjectReference Include="..\_2_Application\_2_Application.csproj" />
