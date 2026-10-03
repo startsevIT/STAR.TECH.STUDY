@@ -25,7 +25,7 @@ public sealed class ApiClientTargetOperationFilter : IOperationFilter
                 $"[ForFlutterOuterClient], [ForReactInnerClient], [ForBackOfficeClient].");
 
         var jsonArray = new JsonArray(
-            targets.Select(t => (JsonNode)JsonValue.Create(t)!).ToArray());
+            targets.Select(JsonNode (t) => JsonValue.Create(t)!).ToArray());
 
         operation.Extensions ??= new Dictionary<string, IOpenApiExtension>();
         operation.Extensions["x-api-client-target"] = new JsonNodeExtension(jsonArray);

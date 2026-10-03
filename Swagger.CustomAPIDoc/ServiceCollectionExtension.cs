@@ -7,7 +7,8 @@ namespace Swagger.CustomAPIDoc;
 
 public static class ServiceCollectionExtension
 {
-    public static IServiceCollection AddCustomSwaggerGen(this IServiceCollection services)
+    public static IServiceCollection AddCustomSwaggerGen(this IServiceCollection services,
+        bool isRequiredTargetClient = false)
     {
         services.AddEndpointsApiExplorer();
         services.AddSwaggerGen(options =>
@@ -27,9 +28,11 @@ public static class ServiceCollectionExtension
                 [new OpenApiSecuritySchemeReference("Bearer", document)] = []
             });
 
-            options.CustomOperationIds(apiDesc =>
-                apiDesc.TryGetMethodInfo(out var methodInfo) ? methodInfo.Name : null);
-            options.OperationFilter<ApiClientTargetOperationFilter>();
+            options.CustomOperationIds(x => x.TryGetMethodInfo(out var methodInfo) ? methodInfo.Name : null);
+            
+            if (isRequiredTargetClient)
+                options.OperationFilter<ApiClientTargetOperationFilter>();
+            
             options.OperationFilter<ControllerNamespaceOperationFilter>();
             options.SupportNonNullableReferenceTypes();
         });

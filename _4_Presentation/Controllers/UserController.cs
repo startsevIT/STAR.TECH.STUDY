@@ -1,15 +1,14 @@
 ﻿using Application.Users;
 using Application.Users.Models;
 using Microsoft.AspNetCore.Mvc;
+using Presentation.Controllers.ForClientAttributes;
 using Swagger.CustomAPIDoc;
 
 namespace Presentation.Controllers;
 
 public class UserController(UserService userService) : ControllerBase
 {
-    [HttpPost("register")]
-    [ForReactInnerClient]
-    [ForFlutterOuterClient]
+    [HttpPost("register"), ForReactInnerClient, ForFlutterOuterClient]
     public async Task<IActionResult> Register([FromBody] UserRegisterRequest request)
     {
         try
@@ -21,13 +20,9 @@ public class UserController(UserService userService) : ControllerBase
         {
             return BadRequest(e.Message);
         }
-        
-        
     }
 
-    [HttpPost("login")]
-    [ForReactInnerClient]
-    [ForFlutterOuterClient]
+    [HttpPost("login"), ForReactInnerClient, ForFlutterOuterClient]
     public IActionResult Login([FromBody] UserLoginRequest request)
     {
         var response = userService.Login(request);

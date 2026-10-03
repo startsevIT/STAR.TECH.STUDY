@@ -1,13 +1,7 @@
 ﻿namespace Swagger.CustomAPIDoc;
 
 [AttributeUsage(AttributeTargets.Method, AllowMultiple = true)]
-public abstract class ApiClientTargetAttribute : Attribute
+public abstract class ApiClientTargetAttribute(string target) : Attribute
 {
-    protected ApiClientTargetAttribute(string target)
-    {
-        ArgumentException.ThrowIfNullOrWhiteSpace(target);
-        Target = target;
-    }
-
-    public string Target { get; }
+    public string Target { get; } = target;
 }
