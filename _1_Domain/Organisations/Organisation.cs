@@ -11,9 +11,9 @@ public class Organisation : Entity
         City = city;
     }
 
-    public string Name { get; set; }
-    public string City { get; set; }
-    public Guid OwnerId { get; set; }
+    public string Name { get; private set; }
+    public string City { get; private set; }
+    public Guid OwnerId { get; private set; } 
 
     public static Organisation Create(Guid ownerId, string name, string city) => new(ownerId, name, city);
 }

@@ -14,7 +14,7 @@ public class AppDbContext(DbContextOptions builder) : DbContext(builder)
     {
         base.OnModelCreating(modelBuilder);
 
-        modelBuilder.ApplyConfigurationsFromAssembly(typeof(Entity).Assembly);
+        modelBuilder.ApplyConfigurationsFromAssembly(typeof(AppDbContext).Assembly);
         foreach (var type in EntityTypeScanner.GetEntities(typeof(Entity).Assembly))
             modelBuilder.Entity(type);
 

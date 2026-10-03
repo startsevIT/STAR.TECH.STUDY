@@ -2,6 +2,7 @@ using Application;
 using Application.Users;
 using Domain.Users;
 using EmailSender.Logger;
+using FromToken;
 using Infrastructure.Storage;
 using Microsoft.EntityFrameworkCore;
 using PasswordHasher.PBKDF2;
@@ -19,6 +20,7 @@ builder.Services
     .AddEfStorage<AppDbContext>(o => o.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")))
     .AddPasswordHasher(builder.Configuration)
     .AddCustomSwaggerGen()
+    .AddTokenUser()
     .AddJwtTokenService(builder.Configuration)
     .AddServices(typeof(UserService).Assembly)
     .AddLoggingEmailSender()

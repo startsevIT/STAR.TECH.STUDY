@@ -30,6 +30,7 @@ public static class ServiceCollectionExtension
             options.OperationFilter<ControllerNamespaceOperationFilter>();
             options.SupportNonNullableReferenceTypes();
         });
+        
         return services;
     }
 }
