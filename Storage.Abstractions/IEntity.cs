@@ -1,0 +1,6 @@
+﻿namespace Storage.Abstractions;
+
+public interface IEntity
+{
+    Guid Id { get; }
+}

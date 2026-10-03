@@ -1,0 +1,26 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+    <PropertyGroup>
+        <TargetFramework>net10.0</TargetFramework>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <RootNamespace>Presentation</RootNamespace>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\EmailSender.Logger\EmailSender.Logger.csproj" />
+      <ProjectReference Include="..\PasswordHasher.PBKDF2\PasswordHasher.PBKDF2.csproj" />
+      <ProjectReference Include="..\ServiceCollectorDI\ServiceCollectorDI.csproj" />
+      <ProjectReference Include="..\Storage.EntityFramework\Storage.EntityFramework.csproj" />
+      <ProjectReference Include="..\Swagger.CustomAPIDoc\Swagger.CustomAPIDoc.csproj" />
+      <ProjectReference Include="..\TokenCreator.JWT\TokenCreator.JWT.csproj" />
+      <ProjectReference Include="..\_2_Application\_2_Application.csproj" />
+      <ProjectReference Include="..\_3_Infrastructure\_3_Infrastructure.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="10.0.3" />
+      <PackageReference Include="Swashbuckle.AspNetCore" Version="10.2.3" />
+    </ItemGroup>
+
+</Project>
